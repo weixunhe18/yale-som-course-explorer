@@ -32,6 +32,10 @@ TOKEN_TTL = timedelta(days=7)
 MAX_PASSWORD_BYTES = 72
 
 
+# RFC 7518 §3.2: an HMAC-SHA256 key should be at least as long as the digest.
+MIN_SECRET_BYTES = 32
+
+
 def _secret() -> str:
     """Signing key for JWTs.
 
@@ -39,9 +43,18 @@ def _secret() -> str:
     invalidate every token on restart, and differ across Render instances.
     """
     key = (os.getenv("JWT_SECRET") or "").strip()
+    deployed = bool(os.getenv("RENDER") or os.getenv("DATABASE_URL"))
+
     if key:
+        # A short key is forgeable, and anyone who forges one is any user they
+        # like. Fail loudly at startup rather than serve with a weak secret.
+        if deployed and len(key.encode("utf-8")) < MIN_SECRET_BYTES:
+            raise RuntimeError(
+                f"JWT_SECRET is only {len(key)} characters; use at least "
+                f"{MIN_SECRET_BYTES}. Generate one with: openssl rand -base64 32"
+            )
         return key
-    if os.getenv("RENDER") or os.getenv("DATABASE_URL"):
+    if deployed:
         raise RuntimeError(
             "JWT_SECRET is not set. Add it to the service's environment variables."
         )

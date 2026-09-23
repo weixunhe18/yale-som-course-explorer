@@ -16,10 +16,17 @@ import argparse
 import sys
 from pathlib import Path
 
-from sqlalchemy import create_engine, func, select
-from sqlalchemy.orm import Session
+from dotenv import load_dotenv
 
-from db import Base, Chat, Course, User, SQLITE_PATH, database_url
+# Load .env before importing db, which reads DATABASE_URL at import time.
+_ROOT = Path(__file__).resolve().parent.parent
+load_dotenv(_ROOT / ".env")
+load_dotenv(_ROOT.parent / ".env")
+
+from sqlalchemy import create_engine, func, select  # noqa: E402
+from sqlalchemy.orm import Session  # noqa: E402
+
+from db import Base, Chat, Course, User, SQLITE_PATH, database_url  # noqa: E402
 
 BATCH = 500
 
