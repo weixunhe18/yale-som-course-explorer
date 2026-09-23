@@ -1,0 +1,133 @@
+/* Doraemon palette: cyan-blue body, white belly, red collar, yellow bell. */
+
+:root {
+  --blue-900: #00527a;
+  --blue-700: #0079b5;
+  --blue-500: #00a0e9;
+  --blue-300: #6fcdf5;
+  --blue-100: #d6f0fc;
+  --blue-50: #eef9fe;
+
+  --red-600: #c0000f;
+  --red-500: #e60012;
+  --red-100: #ffe3e5;
+
+  --bell: #ffd900;
+  --bell-dark: #e0b400;
+
+  --ink-900: #0d2233;
+  --ink-700: #33505f;
+  --ink-500: #6a8494;
+  --ink-300: #a7bcc8;
+
+  --surface: #ffffff;
+  --page: #f2f9fd;
+  --line: #d9e9f2;
+
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --radius-sm: 10px;
+
+  --shadow-sm: 0 1px 2px rgba(13, 34, 51, 0.06);
+  --shadow-md: 0 4px 14px rgba(0, 82, 122, 0.1);
+  --shadow-lg: 0 14px 34px rgba(0, 82, 122, 0.16);
+
+  --font: 'Nunito', 'Quicksand', 'Avenir Next', 'Segoe UI', system-ui, sans-serif;
+
+  font-family: var(--font);
+  color: var(--ink-900);
+  background: var(--page);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(1100px 420px at 12% -8%, var(--blue-100), transparent 62%),
+    radial-gradient(760px 340px at 92% 0%, #fff4f5, transparent 58%),
+    var(--page);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  letter-spacing: -0.015em;
+  font-weight: 800;
+}
+
+p {
+  margin: 0;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+input,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+a {
+  color: var(--blue-700);
+  text-decoration-color: var(--blue-300);
+  text-underline-offset: 2px;
+}
+
+a:hover {
+  color: var(--blue-900);
+}
+
+:focus-visible {
+  outline: 3px solid var(--blue-300);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+::selection {
+  background: var(--blue-100);
+}
+
+/* Thin, unobtrusive scrollbars inside panels. */
+.scroll-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--blue-300) transparent;
+}
+
+.scroll-thin::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scroll-thin::-webkit-scrollbar-thumb {
+  background: var(--blue-300);
+  border-radius: 99px;
+}
+
+.scroll-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

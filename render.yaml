@@ -1,0 +1,49 @@
+# Render Blueprint — one Web Service (FastAPI) + one Static Site (React).
+#
+# Render can read this file directly (New > Blueprint), or you can create the two
+# services by hand with the same settings. Values marked `sync: false` are secrets
+# or cross-service URLs: Render prompts for them instead of reading them here, so
+# nothing sensitive lives in the repo.
+#
+# Deploy order matters: the backend first, so its URL exists for VITE_API_BASE,
+# then set FRONTEND_ORIGIN on the backend once the static site has its URL.
+
+services:
+  - type: web
+    name: som-course-api
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      # Supabase connection string (Session pooler URI).
+      - key: DATABASE_URL
+        sync: false
+      # Portkey gateway key for the model calls.
+      - key: PORTKEY_API_KEY
+        sync: false
+      # Signs the login tokens. Render generates one; changing it signs everyone out.
+      - key: JWT_SECRET
+        generateValue: true
+      # The static site's origin, e.g. https://som-course-explorer.onrender.com
+      # Set after the frontend's first deploy, otherwise the browser blocks the API.
+      - key: FRONTEND_ORIGIN
+        sync: false
+
+  - type: web
+    name: som-course-explorer
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    envVars:
+      # The backend's URL, e.g. https://som-course-api.onrender.com
+      - key: VITE_API_BASE
+        sync: false
+    routes:
+      # Single-page app: let React handle any path rather than 404ing.
+      - type: rewrite
+        source: /*
+        destination: /index.html

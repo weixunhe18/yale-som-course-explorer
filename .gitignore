@@ -1,0 +1,25 @@
+# Secrets — only .env.example is meant to be committed.
+.env
+.env.*
+!.env.example
+
+# The course database. Not committed for two reasons: it is a binary blob that
+# would churn on every run, and once you sign in locally it holds real accounts
+# (bcrypt hashes) that have no business in a public repo.
+# Get it from the course zip — see the README.
+data/*.db
+data/*.sqlite3
+
+# Python
+backend/.venv/
+__pycache__/
+*.py[cod]
+
+# Node
+frontend/node_modules/
+frontend/dist/
+
+# Agent run log (regenerated locally)
+output/
+
+.DS_Store

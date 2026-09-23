@@ -1,0 +1,13 @@
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
+pydantic-ai-slim[openai]>=1.0.0
+python-dotenv>=1.0.1
+httpx>=0.27.0
+
+# Database: SQLAlchemy speaks to SQLite locally and Supabase Postgres in production.
+SQLAlchemy>=2.0.30
+psycopg[binary]>=3.2.0
+
+# Auth: bcrypt for password hashing, PyJWT for the sign-in token.
+bcrypt>=4.2.0
+PyJWT>=2.9.0
